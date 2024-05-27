@@ -5,60 +5,37 @@ import models.Category;
 import repo.DBMainRepo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class BookService {
+    private static List<Book> bookList;
+
+    public BookService(){
+        bookList = DBMainRepo.getBookListList();
+    }
+
     public List<Book> load(String categoryName, String bookName, String bookAuthor) {
-
-       List<Book> bookList = DBMainRepo.getBookListList();
-       List<Book> result = new ArrayList<>();
-       result = filterByCategory(categoryName, result, bookList);
-       result = filterByBookName(bookName, result);
-       result = filterByAuthorName(bookAuthor, result,bookList);
-        return result;
-    }
-
-
-    private static List<Book> filterByBookName(String bookName, List<Book> result) {
-        if (bookName != null && !bookName.trim().isEmpty()) {
-            result =  result.stream().filter(m -> m.getTitle().contains(bookName)).collect(Collectors.toList());
+        Stream<Book> streamResult = bookList.stream();
+        if(categoryName != null && !categoryName.trim().isEmpty()){
+            streamResult = streamResult
+                    .filter(book -> book.getCategories().stream()
+                            .anyMatch(category -> category.getTitle().equals(categoryName)));
         }
-        return result;
+
+        if(bookName != null && !bookName.trim().isEmpty()){
+            streamResult = streamResult
+                    .filter(book -> book.getTitle().equals(bookName));
+        }
+
+        if(bookAuthor != null && !bookAuthor.trim().isEmpty()){
+            streamResult = streamResult
+                    .filter(book -> book.getAuthor().equals(bookAuthor));
+        }
+
+        return streamResult.toList();
     }
 
-    private static List<Book> filterByCategory(String categoryName, List<Book> result, List<Book> bookList) {
-        if (categoryName == null || categoryName.trim().isEmpty()) {
-            result = bookList;
-        } else {
-
-            for (Book books : bookList) {
-                for (Category category : books.getCategories()) {
-                    if (category.getTitle().equals(categoryName)) {
-                        result.add(books);
-                        break;
-                    }
-                }
-            }
-        }
-        return result;
-    }
-    private static List<Book> filterByAuthorName(String bookAuthor, List<Book> result, List<Book> bookList) {
-        if (bookAuthor == null || bookAuthor.trim().isEmpty()) {
-            result = bookList;
-        } else {
-//            return bookList.stream()
-//                    .filter(m -> m.getAuthor()
-//                            .stream()
-//                            .anyMatch(c -> c.getTitle().equals(bookAuthor)))
-//                    .collect(Collectors.toList());
-            for (Book books : bookList) {
-                    if (books.getAuthor().equals(bookAuthor)) {
-                        result.add(books);
-                        break;
-                    }
-            }
-        }
-        return result;
-    }
 }

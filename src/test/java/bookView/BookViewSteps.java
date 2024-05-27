@@ -39,8 +39,8 @@ public class BookViewSteps {
         assertTrue(categories.stream().anyMatch(c -> c.getTitle().equals("Трилър")));
         assertTrue(categories.stream().anyMatch(c -> c.getTitle().equals("Драма")));
         assertTrue(categories.stream().anyMatch(c -> c.getTitle().equals("Фантастика")));
-        //assertTrue(categories.stream().anyMatch(c -> c.getTitle().equals("Романтика")));
-        assertEquals(3, categories.size());
+        assertTrue(categories.stream().anyMatch(c -> c.getTitle().equals("Романтика")));
+        assertEquals(4, categories.size());
     }
 
     @When("потребителя избере категория: {string}")
@@ -49,7 +49,7 @@ public class BookViewSteps {
     }
 
 
-    @When("потребителя въвежда име на книга {string} в полето за търсене")
+    @When("потребителя въвежда име на книгата {string} в полето за търсене")
     public void addBookInSearchField(String bookName) {
         this.helperModel.setBookName(bookName);
     }
