@@ -19,10 +19,8 @@ public class CheckBookList {
 
     @Then("Визуализира списък с наличните {int} книги")
     public void checkBookList(int expectedBookCount) {
-        if (null == helperModel.getBookList()) {
-            BookService bookService = new BookService();
-            helperModel.setBookList(bookService.load(helperModel.getCategory(), helperModel.getBookName(), helperModel.getBookAuthor()));
-        }
+        BookService bookService = new BookService();
+        helperModel.setBookList(bookService.load(helperModel.getCategory(), helperModel.getBookName(), helperModel.getBookAuthor()));
         assertNotNull(helperModel.getBookList());
         assertEquals(expectedBookCount, helperModel.getBookList().size());
     }

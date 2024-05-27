@@ -29,12 +29,13 @@ public class DBMainRepo {
         bookList.add(new Book(8l, "Пътещестеникът във времето и неговата жена", "", "", 1990, Set.of(category3)));
         bookList.add(new Book(9l, "Ема", "", "Джейн Остин", 1815, Set.of(category3)));
         bookList.add(new Book(10l, "Ана Каренина", "", "Лев Тоулстой", 1873, Set.of(category3)));
-
+        bookList.add(new Book(11l, "Ана Каренина", "", "Лев Тоулстой", 1873, Set.of(category4)));
 
 
         categories.add(category1);
         categories.add(category2);
         categories.add(category3);
+        categories.add(category4);
     }
 
     public static List<Category> getCategories() {

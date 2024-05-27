@@ -34,7 +34,4 @@ public class Category {
         return title;
     }
 
-    public String getDescription() {
-        return description;
-    }
 }
